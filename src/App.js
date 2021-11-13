@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [text, setText] = useState("");
+  const [todo, setTodo] = useState([]);
+
+  const handleOnChange = (e) => {
+    e.preventDefault();
+    if (!text || /^\s/.test(text)) {
+      return;
+    }
+    setTodo([...todo, text]);
+    setText("");
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (todo.length > 0) {
+        setTodo(todo.slice(1));
+      }
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [todo]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ textAlign: "center", marginTop: "10px" }}>
+      <form onSubmit={handleOnChange}>
+        <input
+          type="text"
+          placeholder="Todo List"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+        <button>Enter</button>
+
+        {todo &&
+          todo.map((value, i) => (
+            <div key={i} style={{ fontSize: "20px" }}>
+              {value}
+            </div>
+          ))}
+      </form>
     </div>
   );
-}
+};
 
 export default App;
