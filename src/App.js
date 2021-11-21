@@ -15,14 +15,26 @@ const App = () => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       if (todo.length > 0) {
-        setTodo(todo.slice(1));
+        setTodo((todo) => todo.slice(1));
+        console.log("todo", todo);
       }
     }, 5000);
-    return () => clearTimeout(timer);
+    // return () => clearTimeout();
   }, [todo]);
 
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     if (todo && todo.length > 0) {
+  //       setTodo((todo) => todo.slice(1));
+  //       console.log("todo", todo);
+  //     }
+  //   }, 5000);
+  //   return () => clearTimeout(timer);
+  // }, [todo]);
+
+  // console.log("todo", todo);
   return (
     <div style={{ textAlign: "center", marginTop: "10px" }}>
       <form onSubmit={handleOnChange}>
